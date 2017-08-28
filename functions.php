@@ -52,6 +52,20 @@ function mamix() {
 
 add_action('after_setup_theme', 'mamix');
 
+//register siderbar
+function sidebar(){
+    register_sidebar(array(
+        'name'=>'Single Page Right Sidebar',
+        'id'=>'rightsidebr',
+        'desc'=>'You May Add Right Sidebar Here',
+        'before_widget'=>'',
+        'after_widget'=>'</h5>',
+        'before_title'=>'<h2>',
+        'after_title'=>'</h2><h5>'
+    ));
+}
+add_action('widgets_init','sidebar');
+
 //customizer option
 
 function customize_services($serviecs) {
@@ -136,6 +150,30 @@ function custom_team($cutomteam){
 }
 add_action('customize_register','custom_team');
 
+//custom meta box
+
+function designation(){
+    add_meta_box(
+            'designation',
+            'You May Add Designation',
+            'meta_output',
+            'team',
+            'normal'
+            );
+}
+add_action('add_meta_boxes','designation');
+
+function meta_output($post){
+   ?>
+<label for="desig">Designation</label>
+<p><input type="text" id="desig" value="<?php echo get_post_meta($post->ID,'designation',true) ?>" name="designation" class="widefat"></p>
+<?php
+}
+
+function database_connect($post_id){
+    update_post_meta($post_id,'designation',$_POST[designation]);
+}
+add_action('save_post','database_connect');
 function add_css_js() {
 
     wp_register_style('responsive', get_template_directory_uri() . '/css/bootstrap-responsive.css');
@@ -167,4 +205,5 @@ add_action('wp_enqueue_scripts', 'add_css_js');
 require ('navwalker.php');
 require_once ('inc/redux/ReduxCore/framework.php');
 require_once ('inc/redux/sample/sample.php');
+require_once ('sortcode.php');
 

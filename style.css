@@ -5,5 +5,11 @@ Version:1.0
 
 */
 .my-imge{
-    width:150px;
+    width:250px;
+    float: left;
+}
+.post-subtitle{
+    text-align: justify;
+    font-size: 18px;
+    
 }

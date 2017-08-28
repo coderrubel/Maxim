@@ -64,7 +64,7 @@
             </div>
             <div class="span6">
                 <div class="aligncenter">
-                    
+
                     <img src="<?php echo get_theme_mod('teamimge'); ?>"  />
                 </div>
             </div>
@@ -83,9 +83,9 @@
                     <div class="span2  flyIn">
                         <div class="people">
                             <?php the_post_thumbnail(array('class' => ' team-thumb img-circle')); ?>
-                            <h3><?php the_title(); ?></h3>
+                            <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
                             <p>
-                                <?php the_content(); ?>
+                                <?php echo get_post_meta($post->ID,'designation',true); ?>
                             </p>
                         </div>
                     </div>
@@ -103,8 +103,6 @@
         <!-- Four columns -->
         <div class="row">
 
-
-
             <?php
             $services = new WP_Query(array(
                 'post_type' => 'services_post',
@@ -116,14 +114,14 @@
                 ?>
                 <div class="span3 animated-fast flyIn" style="background:<?php echo get_theme_mod('box_color') ?>">
                     <div class="service-box" >
-                <?php the_post_thumbnail(); ?>
-                        <h2><?php the_title(); ?></h2>
+                        <?php the_post_thumbnail(); ?>
+                        <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                         <p>
-                        <?php the_content(); ?>
+                            <?php the_content(); ?>
                         </p>
                     </div>
                 </div>
-<?php endwhile; ?>
+            <?php endwhile; ?>
 
 
         </div>
@@ -339,49 +337,54 @@
 </section>
 <!-- end spacer section -->
 <!-- section: blog -->
+
+
 <section id="blog" class="section">
     <div class="container">
         <h4>Our Blog</h4>
         <!-- Three columns -->
         <div class="row">
 
-<?php
- $blog = new WP_Query(array(
-    'post_type'=>'blog',
-     'posts_per_page'=>4,
-     
- ));
-while ($blog->have_posts()): $blog->the_post();
-    ?>
+            <?php
+            $blog = new WP_Query(array(
+                'post_type' => 'blog',
+                'posts_per_page' => 4,
+            ));
+            while ($blog->have_posts()): $blog->the_post();
+                ?>
                 <div class="span3">
                     <div class="home-post">
                         <div class="max-img">
 
-    <?php the_post_thumbnail(); ?>
+                            <?php the_post_thumbnail(); ?>
                         </div>
                         <div class="post-meta">
                             <i class="icon-file icon-2x"></i>
                             <span class="date"><?php the_date('F d, Y'); ?></span>
-                            <span class="tags"><a href="#">Design</a>, <a href="#">Blog</a></span>
+                            <span class="tags"><?php the_category(); ?></span>
                         </div>
                         <div class="entry-content">
                             <h5><strong><a href="#"><?php the_title(); ?></a></strong></h5>
+
                             <p>
-    <?php
-    $reamor = '<button class=" btn-success btn-xs"><a href="'.  get_the_permalink().'">Read more</a></button>';
-    
-    echo wp_trim_words(get_the_content(),10,$reamor) ?>
+                                <?php
+                                $reamor = '<button class=" btn-success btn-xs"><a href="' . get_the_permalink() . '">Read more</a></button>';
+
+                                echo wp_trim_words(get_the_content(), 10, $reamor)
+                                ?>
                             </p>
-                            
+
                         </div>
                     </div>
                 </div>
-<?php endwhile; ?>
+            <?php endwhile; ?>
 
         </div>
         <div class="blankdivider30"></div>
+
         <div class="aligncenter">
-            <a href="<?php get_permalink();  ?>" class="btn btn-large btn-theme">More blog post</a>
+
+            <a href="<?php echo site_url("blog"); ?>" class="btn btn-large btn-theme">More blog post</a>
         </div>
     </div>
 </section>
